@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Log Anomaly Watcher</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 2rem auto; max-width: 900px; padding: 0 1rem; color: #1a1a1a; }
+  h1 { font-size: 1.5rem; }
+  .card { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; margin: 1rem 0; }
+  .critical { border-left: 6px solid #c0392b; }
+  .high { border-left: 6px solid #e67e22; }
+  .medium { border-left: 6px solid #f1c40f; }
+  .muted { color: #666; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; padding: 0.4rem; border-bottom: 1px solid #eee; font-size: 0.9rem; }
+  code { background: #f4f4f4; padding: 0.1rem 0.3rem; border-radius: 4px; }
+  button { padding: 0.5rem 1rem; cursor: pointer; }
+</style>
+</head>
+<body>
+<h1>Log Anomaly Watcher</h1>
+<p class="muted">Spikes and brand-new error signatures, detected with transparent statistical rules — no black-box model.</p>
+<button id="refresh">Refresh</button>
+<span id="status" class="muted"></span>
+
+<h2>Anomalies</h2>
+<div id="anomalies"></div>
+
+<h2>Top signatures</h2>
+<table>
+  <thead><tr><th>Signature</th><th>Service</th><th>Count</th><th>First seen</th><th>Last seen</th></tr></thead>
+  <tbody id="signatures"></tbody>
+</table>
+
+<script>
+async function load() {
+  document.getElementById('status').textContent = 'Loading…';
+  const [aRes, sRes] = await Promise.all([fetch('/api/anomalies'), fetch('/api/signatures')]);
+  const a = await aRes.json();
+  const s = await sRes.json();
+  const aEl = document.getElementById('anomalies');
+  aEl.innerHTML = a.anomalies.length === 0
+    ? '<p class="muted">No anomalies right now.</p>'
+    : a.anomalies.map(x => `<div class="card ${x.severity}"><strong>${x.type}</strong> · ${x.severity} · ${x.service}<br><code>${x.normalized}</code><br>${x.reason}</div>`).join('');
+  document.getElementById('signatures').innerHTML = s.signatures.slice(0, 20).map(x =>
+    `<tr><td><code>${x.signature}</code><br><small>${x.normalized}</small></td><td>${x.service}</td><td>${x.count}</td><td>${new Date(x.firstSeen).toLocaleString()}</td><td>${new Date(x.lastSeen).toLocaleString()}</td></tr>`).join('');
+  document.getElementById('status').textContent = 'Updated ' + new Date().toLocaleTimeString();
+}
+document.getElementById('refresh').addEventListener('click', load);
+load();
+setInterval(load, 30000);
+</script>
+</body>
+</html>
