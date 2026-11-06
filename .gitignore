@@ -1,5 +1,27 @@
+# Dependencies
 node_modules/
+
+# Build output
 dist/
+
+# Environment files (keep .env.example committed, never commit real values)
 .env
+.env.local
+.env.*.local
+
+# Logs
 *.log
+logs/
+
+# Test coverage
+coverage/
+
+# Editor and IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
 .DS_Store
+Thumbs.db
