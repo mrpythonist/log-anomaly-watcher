@@ -1,0 +1,17 @@
+
+> log-anomaly-watcher@0.1.0 test
+> vitest run
+
+
+ RUN  v2.1.9 /home/hatch/workspace/github-open-source-readiness/work/log-anomaly-watcher
+
+ ✓ test/fingerprint.test.ts (4 tests) 83ms
+ ✓ test/detector.test.ts (4 tests) 17ms
+ ✓ test/api.test.ts (4 tests) 508ms
+
+ Test Files  3 passed (3)
+      Tests  12 passed (12)
+   Start at  05:02:24
+   Duration  4.47s (transform 1.42s, setup 0ms, collect 3.55s, tests 608ms, environment 1ms, prepare 1.46s)
+
+exit=0
