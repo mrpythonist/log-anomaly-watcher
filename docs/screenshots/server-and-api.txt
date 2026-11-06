@@ -1,0 +1,28 @@
+$ curl http://localhost:3000/api/health
+{"ok":true,"store":"memory"}
+
+$ curl -X POST http://localhost:3000/api/logs -d {"service":"api","level":"error","message":"Database timeout for user 12345"}
+{"accepted":1}
+
+$ curl http://localhost:3000/api/signatures
+{"signatures":[{"signature":"087af866c0dd0230","service":"api","normalized":"Database timeout for user <num>","count":1,"levels":{"error":1},"firstSeen":"2026-11-06T05:02:31.739Z","lastSeen":"2026-11-06T05:02:31.739Z"}]}
+
+$ curl http://localhost:3000/api/anomalies
+{"anomalies":[{"type":"new_signature","signature":"087af866c0dd0230","service":"api","normalized":"Database timeout for user <num>","windowCount":1,"baselinePerWindow":0,"ratio":null,"severity":"medium","firstSeen":"2026-11-06T05:02:31.739Z","lastSeen":"2026-11-06T05:02:31.739Z","reason":"First seen 2026-11-06T05:02:31.739Z (within the 24h lookback) with 1 event(s) in the last 10 minutes."}],"windowMinutes":10,"generatedAt":"2026-11-06T05:02:31.864Z"}
+
+$ curl -X POST http://localhost:3000/api/logs -d (invalid level)
+{"error":"level must be one of: debug, info, warn, error, fatal"}
+
+$ curl -i http://localhost:3000/ (first 12 lines)
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Fri, 06 Nov 2026 05:00:54 GMT
+ETag: W/"9b0-1a1af3b3008"
+Content-Type: text/html; charset=UTF-8
+Content-Length: 2480
+Date: Fri, 06 Nov 2026 05:02:32 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
