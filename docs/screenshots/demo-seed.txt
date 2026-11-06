@@ -1,0 +1,50 @@
+
+> log-anomaly-watcher@0.1.0 demo
+> node scripts/seed-demo.js
+
+Seeded 23 logs.
+{
+  "anomalies": [
+    {
+      "type": "spike",
+      "signature": "342cb2ffe5ba4ad6",
+      "service": "api",
+      "normalized": "Database timeout",
+      "windowCount": 12,
+      "baselinePerWindow": 1,
+      "ratio": 12,
+      "severity": "critical",
+      "firstSeen": "2026-11-06T04:07:09.168Z",
+      "lastSeen": "2026-11-06T04:57:09.168Z",
+      "reason": "12 events in the last 10 minutes vs a baseline of 1.00 per window (ratio 12.0x, threshold 3x, minimum 5)."
+    },
+    {
+      "type": "new_signature",
+      "signature": "d945e416690faf39",
+      "service": "api",
+      "normalized": "Payment gateway rejected card",
+      "windowCount": 3,
+      "baselinePerWindow": 0,
+      "ratio": null,
+      "severity": "medium",
+      "firstSeen": "2026-11-06T05:00:09.168Z",
+      "lastSeen": "2026-11-06T05:00:09.168Z",
+      "reason": "First seen 2026-11-06T05:00:09.168Z (within the 24h lookback) with 3 event(s) in the last 10 minutes."
+    },
+    {
+      "type": "new_signature",
+      "signature": "33f155f671727d10",
+      "service": "api",
+      "normalized": "Cache miss for key abc",
+      "windowCount": 1,
+      "baselinePerWindow": 0,
+      "ratio": null,
+      "severity": "medium",
+      "firstSeen": "2026-11-06T04:59:09.168Z",
+      "lastSeen": "2026-11-06T04:59:09.168Z",
+      "reason": "First seen 2026-11-06T04:59:09.168Z (within the 24h lookback) with 1 event(s) in the last 10 minutes."
+    }
+  ],
+  "windowMinutes": 10,
+  "generatedAt": "2026-11-06T05:02:09.556Z"
+}
